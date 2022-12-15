@@ -95,88 +95,135 @@ namespace TestWalkingInTheWild
         public void LoadBagpack_BagpackAvailableLoadSingleCloth_ClothIsLoadedInBagpack()
         {
             //given
+            //refer to Setup()
+            Bagpack bagpack = new Bagpack(20.00f);
+            _walker.TakeBagpack(bagpack);
+            Assert.NotNull(_walker.Bagpack);
+            List<Cloth> clothes = Utils.GenerateClothes(1);
 
             //when
+            _walker.LoadBagpack(clothes);
 
             //then
-            Assert.True(false);
+            Assert.That(this._walker.Bagpack.Clothes.Count, Is.EqualTo(1));
         }
 
         [Test]
         public void LoadBagpack_BagpackAvailableLoadMultipleCloths_ClothsAreLoadedInBagpack()
         {
             //given
+            //refer to Setup()
+            Bagpack bagpack = new Bagpack(20.00f);
+            _walker.TakeBagpack(bagpack);
+            Assert.NotNull(_walker.Bagpack);
+            List<Cloth> clothes = Utils.GenerateClothes(4);
 
             //when
+            _walker.LoadBagpack(clothes);
 
             //then
-            Assert.True(false);
+            Assert.That(_walker.Bagpack.Clothes.Count, Is.EqualTo(4));
         }
 
         [Test]
         public void LoadBagpack_ClothBagpackNotAvailable_ThrowException()
         {
             //given
+            //refer to Setup()
+            Assert.Null(_walker.Bagpack);
+            List<Cloth> clothes = Utils.GenerateClothes(4);
 
             //when
+            //Event is called by the assertion
 
             //then
-            Assert.True(false);
+            Assert.Throws<WalkerDoesntCarryABagpackException>(() => _walker.LoadBagpack(clothes));
         }
 
         [Test]
         public void LoadBagpack_BagpackAvailableLoadSingleEquipment_EquipmentIsLoadedInBagpack()
         {
             //given
+            //refer to Setup()
+            Bagpack bagpack = new Bagpack(20.00f);
+            _walker.TakeBagpack(bagpack);
+            Assert.NotNull(_walker.Bagpack);
+            List<Equipment> equipments = Utils.GenerateEquipment(1);
 
             //when
+            _walker.LoadBagpack(equipments);
 
             //then
-            Assert.True(false);
+            Assert.That(_walker.Bagpack.Equipments.Count, Is.EqualTo(1));
         }
 
         [Test]
         public void LoadBagpack_BagpackAvailableLoadMultipleEquipments_EquipmentAreLoadedInBagpack()
         {
             //given
+            //refer to Setup()
+            Bagpack bagpack = new Bagpack(20.00f);
+            _walker.TakeBagpack(bagpack);
+            Assert.NotNull(_walker.Bagpack);
+            List<Equipment> equipments = Utils.GenerateEquipment(4);
 
             //when
+            _walker.LoadBagpack(equipments);
 
             //then
-            Assert.True(false);
+            Assert.That(_walker.Bagpack.Equipments.Count, Is.EqualTo(4));
         }
 
         [Test]
         public void LoadBagpack_EquipmentBagpackNotAvailable_ThrowException()
         {
             //given
+            //refer to Setup()
+            Assert.Null(_walker.Bagpack);
+            List<Equipment> equipments = Utils.GenerateEquipment(4);
 
             //when
+            //Event is called by the assertion
 
             //then
-            Assert.True(false);
+            Assert.Throws<WalkerDoesntCarryABagpackException>(() => _walker.LoadBagpack(equipments));
         }
 
         [Test]
         public void EmptyBagpack_BagpackContainsClothsAndEquipment_BackpackIsEmpty()
         {
             //given
+            //refer to Setup()
+            Bagpack bagpack = new Bagpack(20.00f);
+            _walker.TakeBagpack(bagpack);
+            Assert.NotNull(_walker.Bagpack);
+            List<Equipment> equipments = Utils.GenerateEquipment(4);
+            List<Cloth> clothes = Utils.GenerateClothes(1);
+            _walker.LoadBagpack(equipments);
+            _walker.LoadBagpack(clothes);
 
             //when
+            _walker.EmptyBagpack();
 
             //then
-            Assert.True(false);
+            Assert.That(_walker.Bagpack.Equipments.Count, Is.EqualTo(0));
+            Assert.That(_walker.Bagpack.Clothes.Count, Is.EqualTo(0));
         }
 
         [Test]
         public void EmptyBagpack_BagpackDoesntContainNeitherClothsOrEquipment_ThrowException()
         {
             //given
+            //refer to Setup()
+            Bagpack bagpack = new Bagpack(20.00f);
+            _walker.TakeBagpack(bagpack);
+            Assert.NotNull(_walker.Bagpack);
 
             //when
+            //Event is called by the assertion
 
             //then
-            Assert.True(false);
+            Assert.Throws<EmptyBagpackException>(() => _walker.EmptyBagpack());
         }
     }
 }

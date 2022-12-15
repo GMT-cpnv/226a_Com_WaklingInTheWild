@@ -4,7 +4,7 @@
     {
         #region private attributes
         private string _pseudo;
-        private Bagpack? _bagpack;
+        private Bagpack? _bagpack = null;
         #endregion private attributes
 
         #region public methods
@@ -31,27 +31,39 @@
 
         public void TakeBagpack(Bagpack bagpack)
         {
+            if (_bagpack != null) throw new WalkerAlreadyCarriesABagpackException();
             _bagpack = bagpack;
         }
 
         public void DropBagpack()
         {
+            if (_bagpack == null) throw new WalkerDoesntCarryABagpackException();
             _bagpack = null;
         }
 
         public void LoadBagpack(List<Cloth> cloths)
         {
-            throw new NotImplementedException();
+            if (_bagpack == null) throw new WalkerDoesntCarryABagpackException();
+            foreach (Cloth clothToAdd in cloths)
+            {
+                _bagpack.Add(clothToAdd);
+            }
         }
 
         public void LoadBagpack(List<Equipment> equipments)
         {
-            throw new NotImplementedException();
+            if (_bagpack == null) throw new WalkerDoesntCarryABagpackException();
+            foreach (Equipment equipmentToAdd in equipments)
+            {
+                _bagpack.Add(equipmentToAdd);
+            }
         }
 
         public void EmptyBagpack()
         {
-            throw new NotImplementedException();
+            if (_bagpack.Equipments.Count == 0 && _bagpack.Clothes.Count == 0) throw new EmptyBagpackException();
+            _bagpack.Equipments.RemoveAll(x => x != null);
+            _bagpack.Clothes.RemoveAll(x => x != null);
         }
         #endregion public methods
 
