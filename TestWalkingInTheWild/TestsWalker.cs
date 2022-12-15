@@ -10,7 +10,7 @@ namespace TestWalkingInTheWild
         private Walker _walker;
         private string _pseudo;
         private Bagpack _bagpack = null;
-        private float _maxLoad = 25.50f;
+        private float _maxLoad = 60.50f;
         //endregion private attributes
 
         [SetUp]
@@ -168,7 +168,7 @@ namespace TestWalkingInTheWild
             _walker.LoadBagpack(Utils.GenerateEquipment(10));
 
             //then
-            Assert.That(_walker.Bagpack.Equipments.Count, Is.EqualTo(1));
+            Assert.That(_walker.Bagpack.Equipments.Count, Is.EqualTo(10));
             Assert.That(_walker.Bagpack.RemainingLoadCapacity, Is.EqualTo(_maxLoad - 55));
         }
 
@@ -222,6 +222,20 @@ namespace TestWalkingInTheWild
 
             //then
             Assert.Throws<EmptyBagpackException>(() => _walker.EmptyBagpack());
+        }
+
+        [Test]
+        public void LoadBagpack_ReachMaxLoad_ThrowException()
+        {
+            //given
+            _walker.TakeBagpack(_bagpack);
+            Assert.NotNull(_walker.Bagpack);
+            
+            //when
+            //Event is called by the assertion
+
+            //then
+            Assert.Throws<WalkerDoesntCarryABagpackException>(() => _walker.LoadBagpack(Utils.GenerateEquipment(50)));
         }
     }
 }
