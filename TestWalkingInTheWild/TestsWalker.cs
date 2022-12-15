@@ -1,4 +1,5 @@
 using WalkingInTheWild;
+using static WalkingInTheWild.Bagpack;
 using static WalkingInTheWild.Cloth;
 using static WalkingInTheWild.Walker;
 
@@ -233,9 +234,9 @@ namespace TestWalkingInTheWild
             
             //when
             //Event is called by the assertion
-
+            
             //then
-            Assert.Throws<WalkerDoesntCarryABagpackException>(() => _walker.LoadBagpack(Utils.GenerateEquipment(50)));
+            Assert.Throws<MaximumLoadReachedException>(() => _walker.LoadBagpack(Utils.GenerateEquipment(50)));
         }
     }
 }
